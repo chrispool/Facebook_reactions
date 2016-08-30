@@ -85,11 +85,11 @@ def classify_and_evaluate(train, test):
     X_test = [x for y, x in test if y != 'NONE']
     y_test = [y for y, x in test if y != 'NONE']
     y_pred = pipeline.predict(X_test)
-    print(classification_report(y_test, y_pred))
-    print(confusion_matrix(y_test, y_pred))
+    # print(classification_report(y_test, y_pred))
+    # print(confusion_matrix(y_test, y_pred))
     return f1_score(y_test, y_pred, average= None) , f1_score(y_test, y_pred, average= 'weighted')
 
-test = read_data.read_isear()
+test = read_data.read_fairy_tales()
 
 # print(Counter( [e for e,s in test]))
 pages = ['FoxNews', 'cnn', 'espn', 'nytimes', 'time', 'HuffPostWeirdNews', 'theguardian', 'CartoonNetwork',
@@ -97,18 +97,18 @@ pages = ['FoxNews', 'cnn', 'espn', 'nytimes', 'time', 'HuffPostWeirdNews', 'theg
 
 # pages = ['time', 'theguardian', 'Disney'] # best model
 # pages = ['HuffPostWeirdNews', 'ESPN', 'CNN'] # model 2 fairy tales
-pages = ['time', 'theguardian', 'CookingLight'] # model 3 ISEAR
+# pages = ['time', 'theguardian', 'CookingLight'] # model 3 ISEAR
 
 train = read_facebook_data(pages)
 f_scores, f_avg = classify_and_evaluate(train, test)
-# for r in range(1):
-#     combinations = list(itertools.combinations(pages, r + 1))
-#     for c in combinations:
-#         train = read_facebook_data(c)
-#         # print(c)
-#         f_scores, f_avg = classify_and_evaluate(train, test)
-#         # print(f_scores, f_avg)
-#         # print("{} \t {} \t {}".format(",".join(c), "\t".join(map(str, f_scores)), f_avg))
+for r in range(3):
+    combinations = list(itertools.combinations(pages, r + 1))
+    for c in combinations:
+        train = read_facebook_data(c)
+        # print(c)
+        f_scores, f_avg = classify_and_evaluate(train, test)
+        # print(f_scores, f_avg)
+        print("{} \t {} \t {}".format(",".join(c), "\t".join(map(str, f_scores)), f_avg))
 
-#         # print("--------------------")
-#         # print()
+        print("--------------------")
+        # print()
