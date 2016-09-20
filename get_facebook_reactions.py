@@ -15,7 +15,7 @@ graph = facebook.GraphAPI(access_token='{}|{}'.format(
 
 
 #allready done: 'universityofgroningen', '200273583406054',FoxNews, cnn 
-pages = ['Disney']
+pages = ['Disney', 'FoxNews', 'cnn', 'ESPN', 'HuffPostWeirdNews', 'nickelodeon', 'nytimes', 'theguardian', 'time', 'DailyMail']
 
 
 def emotion_vector(counter_object):
@@ -36,7 +36,7 @@ def get_all(items):
     all_items = []
     i = 0
     print("Getting data", end="")
-    while len(all_items) < 1000:
+    while len(all_items) < 3000:
         print("*", end="")
         try:
             # Perform some action on each post in the collection we receive from
@@ -49,32 +49,29 @@ def get_all(items):
             # loop and end the script.
             print("....Finished getting data")
             break
-        if 'created_time' in all_items[-1]:
-            year = all_items[-1]['created_time'][0:4]
-            if year != '2016':
-                print("....Finished getting data")
-                break
+        
     return all_items
 
 
 possible_reactions = ['NONE', 'LIKE', 'LOVE', 'HAHA', 'WOW', 'SAD', 'ANGRY', 'THANKFUL']
+result = []
 for page_id in pages:
-    result = []
+    
     all_posts = get_all(graph.get_object(id="{}/feed".format(page_id)))
     for i, post in enumerate(all_posts):
         print("Processing post {} of {}".format(i, len(all_posts)))
         if 'message' in post:
             
-            reaction_vector = []
-            for reaction in possible_reactions:
-                rs = graph.get_object(id="{}?fields=reactions.type({}).summary(true)".format(post['id'], reaction))
-                reaction_vector.append(rs['reactions']['summary']['total_count'])
-            print(possible_reactions)
-            print(reaction_vector)
+            # reaction_vector = []
+            # for reaction in possible_reactions:
+            #     rs = graph.get_object(id="{}?fields=reactions.type({}).summary(true)".format(post['id'], reaction))
+            #     reaction_vector.append(rs['reactions']['summary']['total_count'])
+            # print(possible_reactions)
+            # print(reaction_vector)
                 
             result.append([{'created_time': post['created_time'], 'message': post[
-                          'message'], 'reactions': reaction_vector}])
+                          'message'], 'reactions': []}])
 
-    with open('data/{}.json'.format(page_id), 'w') as outfile:
+    with open('data/complete.json', 'w') as outfile:
         json.dump(result, outfile, sort_keys = True, indent = 4, ensure_ascii=False)
-    print("Saved json file for {}".format(page_id))
+    print("Saved json file")
