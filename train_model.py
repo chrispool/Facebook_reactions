@@ -94,27 +94,31 @@ def classify_and_evaluate(train, test):
 pages = ['time', 'theguardian', 'Disney'] # best model
 # pages = ['HuffPostWeirdNews', 'ESPN', 'CNN'] # model 2 fairy tales
 # pages = ['time', 'theguardian', 'CookingLight'] # model 3 ISEAR
-
 train = read_facebook_data(pages)
+
+
+# train = read_data.read_newsgroup_train()
+# test = read_data.read_newsgroup_test()
+
 
 print("Test on SemEval train")
 test = read_data.read_sem_eval_train()
 classify_and_evaluate(train, test)
 print()
 
-print("Test on SemEval test")
-test = read_data.read_sem_eval_test()
-classify_and_evaluate(train, test)
-print()
+# print("Test on SemEval test")
+# test = read_data.read_sem_eval_test()
+# classify_and_evaluate(train, test)
+# print()
 
-print("Test on ISEAR")
-test = read_data.read_isear()
-classify_and_evaluate(train, test)
-print()
+# print("Test on ISEAR")
+# test = read_data.read_isear()
+# classify_and_evaluate(train, test)
+# print()
 
-print("Test on FairyTales")
-test = read_data.read_fairy_tales()
-classify_and_evaluate(train, test)
-print()
+# print("Test on FairyTales")
+# test = read_data.read_fairy_tales()
+# classify_and_evaluate(train, test)
+# print()
 
 

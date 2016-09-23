@@ -11,6 +11,31 @@ mapping = {
 }
 
 
+def read_newsgroup_train():
+    data_folder = 'data/20_newsgroup_train/'
+    result = []
+    for subdir, dirs, files in os.walk(data_folder):
+        for file in files:
+            if file[0].isdigit():
+                with open(os.path.join(subdir, file), 'r', encoding="latin") as f:
+                    x = " ".join([line.strip() for line in f.readlines()])
+                    result.append((subdir.split(".")[-1], x, ''))
+    
+    return result
+
+def read_newsgroup_test():
+    data_folder = 'data/20_newsgroup_test/'
+    result = []
+    for subdir, dirs, files in os.walk(data_folder):
+        for file in files:
+            if file[0].isdigit():
+                with open(os.path.join(subdir, file), 'r', encoding="latin") as f:
+                    x = " ".join([line.strip() for line in f.readlines()])
+                    result.append((subdir.split(".")[-1], x))
+    
+    return result
+
+
 def read_fairy_tales():
     data_folder = 'data/Fairy_tales/agreed/'
     result_fairy_tales = []
