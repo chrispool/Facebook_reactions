@@ -73,12 +73,13 @@ def classify_and_evaluate(train, test):
     pipeline = Pipeline([
         ('features', FeatureUnion([
             # ('lexicon_nrc', features.NRCLexicon()),
-            # ('words', TfidfVectorizer(stop_words='english')),
+            ('words', TfidfVectorizer(stop_words='english')),
             # ('token_ngrams', TfidfVectorizer(stop_words='english', ngram_range = (2, 5))),
             # ('char_ngrams', TfidfVectorizer(ngram_range = (2, 5), analyzer = 'char')),
             # ('negation', features.Negation() ),  
             ('embeddings', features.Embeddings() ),
-            # ('punctuation', features.Punctuation() ), 
+            # ('emotion_distance', features.Emotion_distance() ),
+            ('punctuation', features.Punctuation() ), 
             # ('retrofit', features.Retrofitted() ),  
         ])),
         ('classifier', svm.SVC(kernel='linear', C=0.5, class_weight = 'balanced'))
@@ -89,7 +90,8 @@ def classify_and_evaluate(train, test):
     y_pred = pipeline.predict(X_test)
     print(classification_report(y_test, y_pred))
     print(confusion_matrix(y_test, y_pred))
-   
+    print()
+    print("F1 score (micro) = {}".format(f1_score(y_test, y_pred, average="micro")))
 
 pages = ['time', 'theguardian', 'Disney'] # best model
 # pages = ['HuffPostWeirdNews', 'ESPN', 'CNN'] # model 2 fairy tales
