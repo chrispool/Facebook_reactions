@@ -57,7 +57,7 @@
 \maketitle
 \begin{abstract}
 
-We exploit the Facebook reaction feature in a distant supervised fashion to directly train a support vector machine classifier for emotion detection, using several feature combinations and combining different Facebook pages. Testing our models on existing benchmarks for emotion detection, we show that \textit{employing only information that is derived completely automatically}, thus without relying on any handcrafted lexicon as it's usually done, we can achieve state-of-the-art results. The results also show that there is large room for improvement, especially by gearing the collection of Facebook pages, with a view to the target domain. 
+We exploit the Facebook reaction feature in a distant supervised fashion to train a support vector machine classifier for emotion detection, using several feature combinations and combining different Facebook pages. Testing our models on existing benchmarks for emotion detection, we show that \textit{employing only information that is derived completely automatically}, thus without relying on any handcrafted lexicon as it's usually done, we can achieve state-of-the-art results. The results also show that there is large room for improvement, especially by gearing the collection of Facebook pages, with a view to the target domain. 
 %for some of the emotion labels on datasets that are standardly used for evaluation of emotion detection systems.
 
 \end{abstract}
@@ -75,7 +75,7 @@ In the spirit of the brevity of social media's messages and reactions, people ha
 
 %Affect computing is an umbrella term used to refer to the automatic treatment of a broad range of phenomena that have to do with what people think, how they feel, or what position they take about something. As language is the means through which such feelings and thoughts are expressed, affect computing is basically language processing. On par with the rise of sentiment analysis and opinion mining, also interest in the automatic detection of emotions has flourished, especially since more and more information is accessible via social media. Beside NLP research, interest in this is motivated by social monitoring, including health care and education, as well as commercial reasons  For example, a different advertising strategy could be applied to an angry rather than happy user, or ....
 
-Obviously, emotions and opinions are not always expressed explicitly, so that there is high interest in developing systems towards their automatic detection. Creating manually annotated datasets for training supervised models, however, is not only costly, but also---especially in the case of opinions and emotions---difficult, due to the intrinsic subjectivity of the task \cite{strapparava2008learning,kim2010evaluation}. Therefore, research has focused on unsupervised methods enriched with information derived from lexica, which are manually created \cite{chaffar2011using,kim2010evaluation}. Since \newcite{go2009twitter} have shown that happy and sad emoticons can be successfully used as signals for sentiment labels, \textit{distant supervision}, i.e.  using some reasonably safe signals as proxies for automatically labelling training data, has been used also for emotion recognition, for example exploiting both emoticons and Twitter hashtags \cite{purver2012experimenting}. \newcite{mohammad2015using} also use hashtags, especially experimenting with more fine-grained emotion sets (up to almost 600 emotion labels), to create a large emotion lexicon. Emoticons are used as proxies also by \newcite{hallsmarmulti}, who use Word Embeddings exploiting both emoticons and words to find which words are interchangeable with emoticons but also which emoticons are used in a similar context.\footnote{{http://instagram-engineering.tumblr.com/post/117889701472/emojineering-part-1-machine-learning-for-emoji}.}
+Obviously, emotions and opinions are not always expressed explicitly, so that there is high interest in developing systems towards their automatic detection. Creating manually annotated datasets for training supervised models, however, is not only costly, but also---especially in the case of opinions and emotions---difficult, due to the intrinsic subjectivity of the task \cite{strapparava2008learning,kim2010evaluation}. Therefore, research has focused on unsupervised methods enriched with information derived from lexica, which are manually created \cite{chaffar2011using,kim2010evaluation}. Since \newcite{go2009twitter} have shown that happy and sad emoticons can be successfully used as signals for sentiment labels, \textit{distant supervision}, i.e.  using some reasonably safe signals as proxies for automatically labelling training data, has been used also for emotion recognition, for example exploiting both emoticons and Twitter hashtags \cite{purver2012experimenting}, but mainly to create emotion lexica.\newcite{mohammad2015using} use hashtags, especially experimenting with more fine-grained emotion sets (up to almost 600 emotion labels), to create a large emotion lexicon. Emoticons are used as proxies also by \newcite{hallsmarmulti}, who use Word Embeddings exploiting both emoticons and words to find which words are interchangeable with emoticons but also which emoticons are used in a similar context.\footnote{{http://instagram-engineering.tumblr.com/post/117889701472/emojineering-part-1-machine-learning-for-emoji}.}
 
 %Facebook reactions can also be used as an unaware form of annotation and thus as signals for training labels in a distant supervised settings.
 
@@ -87,7 +87,7 @@ Obviously, emotions and opinions are not always expressed explicitly, so that th
 
 %Since \newcite{go2009twitter} have shown that using happy and sad emoticons as proxies for sentiment labels (positive and negative, respectively), distant supervision has been used also for emotion 
 
-In our work, we also use continuous vector representations as features, and take advantage of distant supervision by using Facebook reactions as proxies for emotion labels, which to the best of our knowledge hasn't been done yet, to train a set of Support Vector Machine models for emotion recognition. Our models, differently from existing ones, exploit information which is \textit{acquired entirely automatically}, and achieve state-of-the-art results for some of the emotion labels on existing, standard evaluation datasets. For explanatory purposes, related work is discussed further and more in detail when we describe the benchmarks for evaluation (Section~\ref{sec:emoData}) and when we compare our models to existing ones (Section~\ref{sec:evaluation}). We also explore and discuss how choosing different sets of Facebook pages as training data provides an intrinsic domain-adaptation method.
+In our work, we take advantage of distant supervision by using Facebook reactions as proxies for emotion labels, which to the best of our knowledge hasn't been done yet, and we train a set of Support Vector Machine models for emotion recognition. Our models, differently from existing ones, exploit information which is \textit{acquired entirely automatically}, and achieve state-of-the-art results for some of the emotion labels on existing, standard evaluation datasets. For explanatory purposes, related work is discussed further and more in detail when we describe the benchmarks for evaluation (Section~\ref{sec:emoData}) and when we compare our models to existing ones (Section~\ref{sec:evaluation}). We also explore and discuss how choosing different sets of Facebook pages as training data provides an intrinsic domain-adaptation method.
 
 
 
@@ -119,7 +119,7 @@ In our work, we also use continuous vector representations as features, and take
 
 
 
-For years, on Facebook, people could leave comments to posts, and also ``like'' them, by using a thumbs-up feature to explicitly express a general, rather underspecified, approval. A ``like'' could thus mean ``I like what you said", but also ``I like that you bring up such topic (though I don't agree with the content of the article you linked)". 
+For years, on Facebook people could leave comments to posts, and also ``like'' them, by using a thumbs-up feature to explicitly express a general, rather underspecified, approval. A ``like'' could thus mean ``I like what you said", but also ``I like that you bring up such topic (though I don't agree with the content of the article you linked)". 
 \begin{wrapfigure}{l}{6cm}
 %\begin{figure}[hbt]
   \includegraphics[scale=.2]{reactions-image-en_us.png}
@@ -129,39 +129,60 @@ For years, on Facebook, people could leave comments to posts, and also ``like'' 
 \end{wrapfigure}
 In February 2016, after a short trial, Facebook made a more explicit \textit{reaction} feature available world-wide. Rather than allowing for the underspecified ``like'' as the only wordless response to a post, a set of more specific reactions was introduced, as shown in Figure \ref{fig:facebook_reactions}: \texttt{Like, Love, Haha, Wow, Sad and Angry}. We use such reactions as proxies for emotion labels associated to posts.
 
-We collected Facebook posts and their corresponding reactions from public pages using the Facebook API, which we accessed via the Facebook-sdk python library\footnote{https://pypi.python.org/pypi/facebook-sdk}. We chose different pages (and therefore domains and stances), aiming at a balanced and varied dataset, but we did so mainly based on intuition (see Sections~\ref{sec:evaluation}--\ref{sec:conclusions} for further discussion on this) and with an eye to the nature of the datasets available for evaluation. The choice of which pages to select posts from is far from trivial, and this is actually an interesting aspect of our approach which deserves further exploration. Indeed, via using different Facebook pages one can intrinsically tackle the domain-adaptation problem. These combinations of posts and the corresponding reactions can be used for training a emotion classifier by for example using the emotion most used as label. 
+We collected Facebook posts and their corresponding reactions from public pages using the Facebook API, which we accessed via the Facebook-sdk python library\footnote{https://pypi.python.org/pypi/facebook-sdk}. We chose different pages (and therefore domains and stances), aiming at a balanced and varied dataset, but we did so mainly based on intuition (see Section~\ref{sec:model}) and with an eye to the nature of the datasets available for evaluation. The choice of which pages to select posts from is far from trivial, and this is actually an interesting aspect of our approach, as by using different Facebook pages one can intrinsically tackle the domain-adaptation problem (See Section~\ref{sec:conclusions} for further discussion on this). The final collection of Facebook pages is as follows: 
+\texttt{FoxNews}, 
+\texttt{CNN}, 
+\texttt{ESPN}, 
+\texttt{New York Times}, 
+\texttt{Time magazine},
+\texttt{Huffington Post Weird News}, 
+\texttt{The Guardian}, 
+\texttt{Cartoon Network}, 
+\texttt{Cooking Light}, 
+\texttt{Home Cooking Adventure}, 
+\texttt{Justin Bieber}, 
+\texttt{Nickelodeon}, 
+\texttt{Spongebob}, 
+\texttt{Disney}.
+%can be seen in Figure~\ref{fig:distribution_facebook}.
+%These combinations of posts and the corresponding reactions can be used for training a emotion classifier by for example using the emotion most used as label. 
 
 
-%
-%\begin{wrapfigure}{r}{8cm}
-%\begin{Verbatim}[fontsize=\scriptsize]
-%[
-% {
-%  "created_time": "2016-06-19T01:40:00+0000",
-%  "message": "Walt Disney World representatives said 
-%  they plan to put up fencing and signs at all resorts 
-%  and waterways.",
-%  "reactions": [5073, 4483, 60, 22, 54, 284, 170, 0]
-% }
-%],
-%[
-% {
-%  "created_time": "2016-06-19T01:00:00+0000",
-%  "message": "Charlene and Joseph Handrik face more
-%  than 550 counts of animal cruelty.",
-%  "reactions": [2256, 1011, 16, 6, 123, 409, 691, 0]
-% }
-%],
-%\end{Verbatim}
-%\caption{Sample of resulting JSON file\label{fig:json}. The order of reactions is \texttt{total, like, love, haha, wow, sad, angry, thankful}.}
-%\end{wrapfigure}
+
+\begin{wrapfigure}{r}{8cm}
+\begin{Verbatim}[fontsize=\scriptsize]
+[
+ {
+  "created_time": "2016-06-19T01:40:00+0000",
+  "message": "Walt Disney World representatives said 
+  they plan to put up fencing and signs at all resorts 
+  and waterways.",
+  "reactions": [5073, 4483, 60, 22, 54, 284, 170, 0]
+ }
+],
+[
+ {
+  "created_time": "2016-06-19T01:00:00+0000",
+  "message": "Charlene and Joseph Handrik face more
+  than 550 counts of animal cruelty.",
+  "reactions": [2256, 1011, 16, 6, 123, 409, 691, 0]
+ }
+],
+\end{Verbatim}
+\caption{Sample of resulting JSON file\label{fig:json}. The order of values/reactions is \texttt{total, like, love, haha, wow, sad, angry, thankful}.}
+\end{wrapfigure}
 
 
 For each selected page, we downloaded the latest 1000 posts, or the maximum available if there are fewer, from February 2016.
 %, which is when the reaction feature was introduced. 
-Next, we retrieved the counts of reactions for each post. The output is a JSON file that contains a list of dictionaries with a timestamp, the post and a reaction vector with frequency values (see Section~\ref{sec:model} for how this vector is turned into training labels).
+Next, we retrieved the counts of reactions for each post. The output is a JSON file that contains a list of dictionaries with a timestamp, the post and a reaction vector with frequency values. The emotion vectors collected for each post must then be turned into an emotion label.\footnote{Note that \texttt{thankful} was only available during specific time spans related to certain events, such as Mother's Day in May 2016.}
 
-%as shown in Figure~\ref{fig:json} (the order of reactions is \texttt{total, like, love, haha, wow, sad, angry, thankful}).\footnote{Note that \texttt{thankful} was only available during specific time spans related to certain events, such as Mother's Day in May 2016.}
+In the context of this experiment, we made the simple decision of associating to each post the emotion with the highest count, ignoring \texttt{like} as it is the default and most generic reaction people tend to use. Therefore, for example, to the ``Walt Disney World representatives said 
+  they plan to put up fencing and signs at all resorts 
+  and waterways.'' post reported in Figure~\ref{fig:json}, 
+  we would associate the label \texttt{sad}, as it has the highest score (284) among the meaningful emotions we consider though it also had non-zero scores for other emotions. At this stage, we didn't perform any other entropy-based selection, which could be investigated in future work.
+
+%as shown in Figure~\ref{fig:json} (the order of reactions is \texttt{total, like, love, haha, wow, sad, angry, thankful}).
 
 
 
@@ -234,13 +255,12 @@ Next, we retrieved the counts of reactions for each post. The output is a JSON f
 \section{Emotion Datasets}
 \label{sec:emoData}
 
-Three datasets annotated with emotions are commonly used for the development and evaluation of systems. In order to compare our performance to state-of-the-art results, we have used them as well. In addition to a description of each dataset, we provide an overview of the emotions used in each dataset, their distribution, and how we mapped them to those we obtained from Facebook posts in Section~\ref{sec:overview}.
+Three datasets annotated with emotions are commonly used for the development and evaluation of emotion detection systems. In order to compare our performance to state-of-the-art results, we have used them as well. In addition to a description of each dataset, we provide an overview of the emotions used in each dataset, their distribution, and how we mapped them to those we obtained from Facebook posts in Section~\ref{sec:overview}.
 
 \subsection{Affective Text dataset}
 \label{sec:data:affect}
-Task~14 at SemEval~2007  \cite{strapparava2007semeval} was concerned with the classification of emotions and valence in news headlines. The headlines where collected from several news websites including Google news,  The New York Times, BBC News and CNN. The used emotion labels were \texttt{Anger, Disgust, Fear, Joy, Sadness, Surprise}), in line with the basic emotions of Ekman's standard model \cite{ekman1992argument},
- and valence was to be determined as positive or negative. Classification of emotion and valence were treated as separate tasks. 
-Emotion labels were not considered as mututally exclusive, and each emotion was assigned a score from 0~to~100. Training/developing data amounted to 250 annotated headlines, while systems were evaluated on another 1000. Evaluation was done using two different methods: a fine-grained evaluation using Pearson's \textit{r}  to measure the correlation between the system scores and the gold standard. With a coarse-grained method, each emotion score was converted to a binary label, and precision, recall, and f-score were used for evaluation. As in most works that use this dataset \cite{chaffar2011using,calvo2013emotions,kim2010evaluation}, we perform evaluation over categorical values (coarse-grained).  This dataset has been extensively used for the evaluation of various unsupervised techniques \cite{strapparava2008learning}, but also for testing different supervised learning techniques and feature portability \cite{mohammad:2012:NAACL-HLT}.
+Task~14 at SemEval~2007  \cite{strapparava2007semeval} was concerned with the classification of emotions and valence in news headlines. The headlines where collected from several news websites including Google news,  The New York Times, BBC News and CNN. The used emotion labels were \texttt{Anger, Disgust, Fear, Joy, Sadness, Surprise}), in line with the basic emotions of Ekman's standard model \cite{ekman1992argument}. Valence was to be determined as positive or negative. Classification of emotion and valence were treated as separate tasks. 
+Emotion labels were not considered as mututally exclusive, and each emotion was assigned a score from 0~to~100. Training/developing data amounted to 250 annotated headlines, while systems were evaluated on another 1000. Evaluation was done using two different methods: a fine-grained evaluation using Pearson's \textit{r}  to measure the correlation between the system scores and the gold standard. With a coarse-grained method, each emotion score was converted to a binary label, and precision, recall, and f-score were used for evaluation. As it is done in most works that use this dataset \cite{chaffar2011using,calvo2013emotions,kim2010evaluation}, we treat this as a classification problem (coarse-grained).  This dataset has been extensively used for the evaluation of various unsupervised techniques \cite{strapparava2008learning}, but also for testing different supervised learning techniques and feature portability \cite{mohammad:2012:NAACL-HLT}.
 
 %
 %
@@ -262,7 +282,7 @@ Emotion labels were not considered as mututally exclusive, and each emotion was 
 
 
 \subsection{Fairy Tales dataset}
-This is a dataset collected by \newcite{alm2008affect}, where about 1,000 sentences from fairy tales (by B. Potter, H.C. Andersen and Grimm) were annotated with the same six emotions of the Affective Text dataset. In most works that use this dataset \cite{kim2010evaluation,calvo2013emotions,chaffar2011using}, only sentences where all annotators agreed are used, and the labels \texttt{angry} and \texttt{disgusted} are merged. We adopt the same choices. 
+This is a dataset collected by \newcite{alm2008affect}, where about 1,000 sentences from fairy tales (by B. Potter, H.C. Andersen and Grimm) were annotated with the same six emotions of the Affective Text dataset, though with different names: \texttt{Angry}, \texttt{Disgusted}, \texttt{Fearful}, \texttt{Happy}, \texttt{Sad}, and \texttt{Surprised}. In most works that use this dataset \cite{kim2010evaluation,calvo2013emotions,chaffar2011using}, only sentences where all annotators agreed are used, and the labels \texttt{angry} and \texttt{disgusted} are merged. We adopt the same choices. 
 %The Affective Labels are in most researches: Angry-Disgusted, Fearful, Happy, Sad, and Surprised. I followed this mapping.
 
 % Description of the dataset
@@ -292,9 +312,9 @@ This is a dataset collected by \newcite{alm2008affect}, where about 1,000 senten
 
 \subsection{ISEAR}
 \label{sec:data:isear}
-The ISEAR (International Survey on Emotion Antecedents and Reactions) is a dataset created by collecting questionnaires answered by people with different cultural backgrounds.   
-During the 1990s, a group of psychologists gathered data for the ISEAR project. Student respondents, both psychologists and non-psychologists, were asked to report situations in which they had experienced all of 7 major emotions (\texttt{joy, fear, anger, sadness, disgust, shame} and \texttt {guilt}). In each case, the questions covered the way they had appraised the situation and how they reacted. The final data-set contained reports on seven emotions each by close to 3000 respondents in 37 countries on all 5 continents.
-The data is stored in a Microsoft Access database where each row contains, among other information, the emotion and the sentence. In total there are 7665 sentences labeled with an emotion. 
+The ISEAR (International Survey on Emotion Antecedents and Reactions) is a dataset created in the context of a psychology project of the 1990s, by collecting questionnaires answered by people with different cultural backgrounds.   Student respondents, both psychologists and non-psychologists, were asked to report situations in which they had experienced all of 7 major emotions (\texttt{joy, fear, anger, sadness, disgust, shame} and \texttt {guilt}). In each case, the questions covered the way they had appraised the situation and how they reacted. The final dataset contains reports on seven emotions, by approximately 3000 respondents from all over the world.
+%The data is stored in a Microsoft Access database where each row contains, among other information, the emotion and the sentence. 
+In total there are 7665 sentences labelled with an emotion, making this the largest testset out of the three we use. 
 
 %In our experiments this dataset is only used for the final testing.
 
@@ -313,7 +333,7 @@ The data is stored in a Microsoft Access database where each row contains, among
 \subsection{Overview of datasets and emotions}
 \label{sec:overview}
 
-We summarise datasets and distribution from two viewpoints. First, because there isn't a full correspondence between the Facebook reactions and the emotions annotated in the datasets, we need to provide a mapping and derive a subset of emotions that we are going to use for the experiments. This is provided in Table~\ref{overview_data-sets}, where in the ``Mapped'' column we report the final emotions we will work with: \texttt{anger, joy, sadness, surprise}. 
+We summarise datasets and distribution from two viewpoints. First, because there are different sets of emotions labels in the datasets and Facebook data, we need to provide a mapping and derive a subset of emotions that we are going to use for the experiments. This is shown in Table~\ref{overview_data-sets}, where in the ``Mapped'' column we report the final emotions we use in this paper: \texttt{anger, joy, sadness, surprise}. 
 \begin{wraptable}{r}{10cm}
 \begin{small}
 \caption{Mapping emotions\label{overview_data-sets}}
@@ -335,7 +355,8 @@ Surprise         & Suprised             &                & Wow          & SURPRI
 \end{small}
 \end{wraptable}
 Second, the distribution of the emotions for each dataset is different, as can be seen in Figure~\ref{fig:distribution_data-sets}. 
-In Figure~\ref{fig:distribution_facebook} we also provide the distribution of the emotions \texttt{anger, joy, sadness, surprise} per Facebook page, in terms of number of posts (recall that we assign to a post the majority emotion). We can observe that for example pages about news  tend to have more sadness and anger posts, while pages about cooking and tv-shows have a high percentage of joy posts. We will use this information to exploit different combination of pages in dependence of the target domain to improve performance (see Section~\ref{sec:model}).
+
+In Figure~\ref{fig:distribution_facebook} we also provide the distribution of the emotions \texttt{anger, joy, sadness, surprise} per Facebook page, in terms of number of posts (recall that we assign to a post the label corresponding to the majority emotion associated to it, see Section~\ref{sec:FBData}). We can observe that for example pages about news  tend to have more sadness and anger posts, while pages about cooking and tv-shows have a high percentage of joy posts. We will use this information to find the best set of pages for a given target domain (see Section~\ref{sec:evaluation}).
 
 
 
@@ -344,12 +365,12 @@ In Figure~\ref{fig:distribution_facebook} we also provide the distribution of th
 
 \begin{figure}[hbt]
 \begin{minipage}{.48\textwidth}
-  \includegraphics[scale=.3]{distribution_data.png}
+  \includegraphics[scale=.145]{distribution_data.png}
   \caption{Distribution of emotions in the datasets  \label{fig:distribution_data-sets}}
 \end{minipage}
 \begin{minipage}{.48\textwidth}
 %\begin{sidewaysfigure}
-    \includegraphics[scale=.15,keepaspectratio]{distribution_facebook.png}  
+    \includegraphics[scale=.3,keepaspectratio]{distribution_facebook.png}  
 \caption{Distribution of posts per page\label{fig:distribution_facebook}}
 %\end{sidewaysfigure}
 \end{minipage}
@@ -375,14 +396,10 @@ In Figure~\ref{fig:distribution_facebook} we also provide the distribution of th
 \section{Model}
 \label{sec:model}
 
+% mention SVM
 
-Having opted to train a Support Vector Machine for this task, there are three main decisions to be taken in developing our model: (i) which Facebook pages to select as training data, (ii) how to turn the emotion vectors collected for each post (see Section~\ref{sec:FBData}) into an emotion label for that post, and (iii) which features to use to train the model. 
+There are two main decisions to be taken in developing our model: (i) which Facebook pages to select as training data, and (ii) which features to use to train the model. 
 
-As far as (ii) is concerned, we made the simple decision of associating to each post the emotion with the highest count, ignoring \texttt{like} as it is the default and most generic reaction people tend to use. Thus, for example, to the ``Walt Disney World representatives said 
-  they plan to put up fencing and signs at all resorts 
-  and waterways.'' 
-  %post reported in Figure~\ref{fig:json}, 
-  we would associate the label \texttt{sad}, as it has the highest score (284) among the meaningful emotions we consider though it also had non-zero scores for other emotions. At this stage, we didn't perform any other entropy-based selection, which could be investigated in future work.
   
   The issues in (i) and (iii) are discussed next. Specifically, we first set on a subset of pages and then experiment with features. Further exploration of the interaction between choice of pages and choice of features is left to future work, and partly discussed in Section~\ref{sec:conclusions}. For development, we use a small portion of the Affective data set described in Section~\ref{sec:data:affect}, that is the portion that had been released as development set for SemEval's 2007 Task~14 \cite{strapparava2007semeval}, which contains 250 annotated sentences. All results reported in this section are on this dataset.
   The test set of Task~14 as well as the other two datasets described in Section~\ref{sec:emoData} will be used to evaluate the final models.
@@ -398,7 +415,7 @@ As far as (ii) is concerned, we made the simple decision of associating to each 
 Although page selection is a crucial ingredient of this approach, for the experiments described here we took a rather simple approach, by first selecting the pages that would provide training data based on intuition and availability, then choosing different combinations according to the target datasets for evaluation, and eventually testing feature combinations. 
 
 %We explored potential correlations between the number of posts per emotion and the performance of the model for that emotion. 
-For the sake of simplicity and transparency, we first trained a linear SVM with a simple bag-of-words model and default parameters as per the Scikit-learn implementation \cite{scikit-learn} on different combinations of pages. Based on results of the attempted combinations as well as on the distribution of emotions in the target datasets (Figure~\ref{fig:distribution_data-sets}), we created three different models: (i) a model created using three Facebook pages that have the highest performance on the development set (\textbf{B-M}), a model that uses a combination of pages that we expect will perform best on the fairy tales dataset (\textbf{FT-M}), and (iii) a model that uses a combination of pages that should perform best on the ISEAR dataset (\textbf{ISE-M}).
+For the sake of simplicity and transparency, we first trained an SVM with a simple bag-of-words model and default parameters as per the Scikit-learn implementation \cite{scikit-learn} on different combinations of pages. Based on results of the attempted combinations as well as on the distribution of emotions in the target datasets (Figure~\ref{fig:distribution_data-sets}), we created three different models: (i) a model created using three Facebook pages that have the highest performance on the development set (\textbf{B-M}), a model that uses a combination of pages that we expect will perform best on the fairy tales dataset (\textbf{FT-M}), and (iii) a model that uses a combination of pages that should perform best on the ISEAR dataset (\textbf{ISE-M}).
 
 %\vspace*{-.25cm}
 
@@ -487,9 +504,11 @@ We use three different embeddings:
 
 \item \textit{Google embeddings}: pre-trained embeddings trained on Google~News and obtained with the skip-gram architecture described in  \cite{mikolov2013distributed}. This model contains 300-dimensional vectors for 3 million words and phrases.
 
-\item \textit{Facebook embeddings}: embeddings that we trained on scraped Facebook pages for a total of 20,000 sentences. Using the \texttt{gensim} library \cite{gensim}, we trained the embeddings with the following parameters: window size of 5, learning rate of 0.01 and dimensionality of 100. We filtered out words with frequency lower than 2 occurrences.
+\item \textit{Facebook embeddings}: embeddings that we trained on our scraped Facebook pages for a total of 20,000 sentences. Using the \texttt{gensim} library \cite{gensim}, we trained the embeddings with the following parameters: window size of 5, learning rate of 0.01 and dimensionality of 100. We filtered out words with frequency lower than 2 occurrences.
 
-\item \textit{Retrofitted embeddings}: generally learned embeddings that are refined using information about relations between words derived from external resources, such as semantic lexica and ontologies. This information is fed back, i.e. \textit{retrofitted}, to the embeddings, so that words that are linked by relations such as hyponymy for example, can get closer in space \cite{retrofitting}. Retrofitting has been shown as a simple but efficient way of informing trained embeddings with additional information rather than including it directly at the training stage, as it's done for example to create sense-aware \cite{iacobacci2015sensembed} or sentiment-aware \cite{tang:14} embeddings.\footnote{Training emotion-aware embeddings is a strategy that we plan to explore in future work.} In this work, we retrofit general embeddings to include information about emotions, so that emotion-similar words can get closer in space. Both the Google as well as the Facebook embeddings were retrofitted with lexical information obtained from the NRC Lexicon. Note that differently from the previous two types of embeddings, the retrofitted ones do rely on handcrafted information in the form of a lexical resource.
+\item \textit{Retrofitted embeddings}: 
+%generally learned embeddings that are refined using information about relations between words derived from external resources, such as semantic lexica and ontologies. This information is fed back, i.e. \textit{retrofitted}, to the embeddings, so that words that are linked by relations such as hyponymy for example, can get closer in space 
+Retrofitting \cite{retrofitting} has been shown as a simple but efficient way of informing trained embeddings with additional information rather than including it directly at the training stage, as it's done for example to create sense-aware \cite{iacobacci2015sensembed} or sentiment-aware \cite{tang:14} embeddings.\footnote{Training emotion-aware embeddings is a strategy that we plan to explore in future work.} In this work, we retrofit general embeddings to include information about emotions, so that emotion-similar words can get closer in space. Both the Google as well as our Facebook embeddings were retrofitted with lexical information obtained from the NRC Lexicon. Note that differently from the previous two types of embeddings, the retrofitted ones do rely on handcrafted information in the form of a lexical resource.
 
 
 %\note{Facebook-built (small but appropriate), general google embeddings, and retrofitted embeddings (which however rely again on hand-crafted info). Remember to cite.}
@@ -517,7 +536,7 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.41,0.25, 0.31} & 
   \footnotesize{0.22,0.49,0.30} & 
 %  \footnotesize{\textbf{0.43,0.37,0.37}}  \\ 
-  \footnotesize{\textbf{0.368}}  \\ 
+  \footnotesize{{0.368}}  \\ 
 
 
 \hline
@@ -527,7 +546,7 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.31,0.30, 0.30} & 
   \footnotesize{0.20,0.51,0.29} & 
 %  \footnotesize{\textbf{0.32,0.30,0.28}}  \\ 
-   \footnotesize{\textbf{0.297}}  \\ 
+   \footnotesize{{0.297}}  \\ 
 
 %\hline
 %  \footnotesize{Negation} &
@@ -544,7 +563,7 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.00,0.00, 0.00} & 
   \footnotesize{0.17,1.00,0.29} & 
 %  \footnotesize{\textbf{0.37,0.17,0.06}}  \\ 
-  \footnotesize{\textbf{0.172}}  \\ 
+  \footnotesize{{0.172}}  \\ 
 
 
 \hline
@@ -554,7 +573,7 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.38,0.07, 0.12} & 
   \footnotesize{0.17,0.31,0.22} & 
 %  \footnotesize{\textbf{0.38,0.33,0.25}}  \\ 
-  \footnotesize{\textbf{0.325}}  \\ 
+  \footnotesize{{0.325}}  \\ 
 
 
 \hline
@@ -564,7 +583,7 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.62,0.11, 0.19} & 
   \footnotesize{1.00,0.03,0.06} & 
 %  \footnotesize{\textbf{0.35,0.29,0.15}}  \\ 
-  \footnotesize{\textbf{0.368}}  \\ 
+  \footnotesize{{0.368}}  \\ 
 
 
 \hline
@@ -583,7 +602,7 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.56,0.46,0.51} & 
   \footnotesize{0.48,0.57, 0.52} & 
   \footnotesize{0.22,0.17,0.19} & 
-  \footnotesize{\textbf{0.445}}\\
+  \footnotesize{{0.445}}\\
 
 \hline
   \footnotesize{Facebook (FB) embeddings} &
@@ -591,7 +610,7 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.31,0.45,0.37} & 
   \footnotesize{0.23,0.11,0.15} & 
   \footnotesize{0.20,0.31,0.24} & 
-  \footnotesize{\textbf{0.273}} \\ 
+  \footnotesize{{0.273}} \\ 
 
 
 \hline
@@ -600,7 +619,7 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.42,0.48,0.45} & 
   \footnotesize{0.30,0.25, 0.27} & 
   \footnotesize{0.20,0.34,0.26} & 
-  \footnotesize{\textbf{0.330}}\\
+  \footnotesize{{0.330}}\\
 
 \hline
   \footnotesize{Retrofitted FB-embeddings} &
@@ -608,7 +627,7 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.34,0.86,0.49} & 
   \footnotesize{0.36,0.09,0.15} & 
   \footnotesize{0.17,0.03,0.05} & 
-  \footnotesize{\textbf{0.321}} \\ 
+  \footnotesize{{0.321}} \\ 
 
 \hline
 \hline
@@ -620,7 +639,7 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.45,0.49,0.47} & 
   \footnotesize{0.49,0.41, 0.44} & 
   \footnotesize{0.29,0.26,0.27} & 
-  \footnotesize{\textbf{0.426}}  \\ 
+  \footnotesize{{0.426}}  \\ 
 
 
 
@@ -632,11 +651,11 @@ We report precision, recall, and f-score on the development set. The average f-s
   \footnotesize{0.43,0.83,0.56} & 
   \footnotesize{0.46,0.27, 0.34} & 
   \footnotesize{0.33,0.17,0.23} & 
-  \footnotesize{\textbf{0.450}}  \\ 
+  \footnotesize{{0.450}}  \\ 
 
 
 \hline
-  \footnotesize{All features--Lexicon + G-emb} &
+  \footnotesize{All features -- Lexicon + G-emb} &
   \footnotesize{0.62,0.34,0.44}  & 
   \footnotesize{0.43,0.85,0.57} & 
   \footnotesize{0.57,0.30, 0.39} & 
@@ -694,15 +713,16 @@ We report precision, recall, and f-score on the development set. The average f-s
 \end{tabular}
 \end{table*}
 
-From Table~\ref{test_results_svm} we draw three main observations. First, a simple tf-idf bag-of-word mode works already very well, to the point that  the other textual and lexicon-based features don't  seem to contribute to the overall f-score (0.368), although there is a rather substantial variation of scores per class. Second, Google embeddings perform a lot better than Facebook embeddings, and this is likely due to the size of the corpus used for training. Retrofitting doesn't seem to help at all the Google embeddings, but it does boost the Facebook embeddings, leading to think that with little data, more accurate task-related information is helping, but corpus size matters most. Third, in combination with embeddings, all features work better than just using tf-idf, but removing the Lexicon feature, which is the only one based on hand-crafted resources, yields even better results. What is most interesting for us is that our best model on development data relies \textit{entirely} on automatically obtained information, from training data to features. 
+From Table~\ref{test_results_svm} we draw three main observations. First, a simple tf-idf bag-of-word mode works already very well, to the point that  the other textual and lexicon-based features don't  seem to contribute to the overall f-score (0.368), although there is a rather substantial variation of scores per class. Second, Google embeddings perform a lot better than Facebook embeddings, and this is likely due to the size of the corpus used for training. Retrofitting doesn't seem to help at all for the Google embeddings, but it does boost the Facebook embeddings, leading to think that with little data, more accurate task-related information is helping, but corpus size matters most. Third, in combination with embeddings, all features work better than just using tf-idf, but removing the Lexicon feature, which is the only one based on hand-crafted resources, yields even better results. Then our best model on development data relies \textit{entirely on automatically obtained information}, both in terms of training data as well as features.
 
 %The feature set we run on test data is therefore a combination of all textual features, plus embeddings, and excluding the external lexicon.
 
 
 \section{Evaluation}
 \label{sec:evaluation}
-The datasets used for testing are those described in Section~\ref{sec:emoData}, standardly used for the evaluation of emotion classification.
-In Table~\ref{final_results} we report results of our models and results on the same datasets --- wherever available --- reported in other papers. Our models rely on subsets of Facebook pages for training, which are chosen according to their performance on the development set as well as on the observation of emotions distribution on different pages and in the different datasets, as described in Section~\ref{sec:model}. The feature set we use for all of our three models is the same, namely all the features plus Google-based embeddings, but excluding the lexicon. This makes our approach completely independent of any manual annotation or handcrafted resource. Our models' performance is compared to the following systems, for which results are reported in the referred literature. 
+In Table~\ref{final_results} we report results of our model on the three datasets standardly used for the evaluation of emotion classification, which we have described in Section~\ref{sec:emoData}. We also include results of other systems, as reported in the literature. 
+
+Our best model relies on subsets of Facebook pages for training, which are chosen according to their performance on the development set as well as on the observation of emotions distribution on different pages and in the different datasets, as described in Section~\ref{sec:model}. The feature set we use for all of our three models is the same, namely all the features plus Google-based embeddings, but excluding the lexicon. This makes our approach completely independent of any manual annotation or handcrafted resource. Our models' performance is compared to the following systems, for which results are reported in the referred literature. 
 
 
 \paragraph{\newcite{kim2010evaluation}} experiment with four different unsupervised techniques that rely on lexicon-derived information. In Table~\ref{final_results} we report the scores for their best average performing approach, namely a CNMF-based categorical classification. They made the decision not to deal with \texttt{surprise} because this emotion is not present in the ISEAR dataset.
